@@ -1,6 +1,6 @@
 """
 Integration tests for OAH-Bridge REST API & CDS Hooks endpoints.
-Tests endpoints in-process to ensure 100% compliance across:
+Tests endpoints in-process to verify prototype conformance across:
 1. /api/fhir/metadata (CapabilityStatement)
 2. /api/fhir/Observation (Standard & OAH Custom Search Parameters)
 3. /api/fhir/Location

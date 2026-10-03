@@ -26,7 +26,7 @@
     {
       "code": "confirmed",
       "display": "Laboratory Confirmed",
-      "definition": "Ground-truth verification established through analytical wet-laboratory testing or formal public health epidemiological confirmation."
+      "definition": "Reference verification established through analytical laboratory testing or formal public health epidemiological confirmation."
     }
   ]
 }

@@ -314,7 +314,7 @@ class OAHServerHandler(SimpleHTTPRequestHandler):
                 "doc_text": "Patient confirmed recreational water contact at Mondego Reach #4 within last 24h during active Cyanobacteria surveillance alert. Environmental history documented in clinical encounter notes.",
                 "dispatch_id": f"CommunicationRequest/oah-comm-{scenario.scenario_id}",
                 "dispatch_target": "Municipal Water Inspection Unit (Coimbra)",
-                "dispatch_action": "Pontoon Cautionary Signage & Wet-Lab Grab Testing",
+                "dispatch_action": "Pontoon Cautionary Signage & Reference Grab Testing",
                 "dossier_ref": "ECDC/OAH-2026-PT04"
             },
             "toulouse-diptera": {

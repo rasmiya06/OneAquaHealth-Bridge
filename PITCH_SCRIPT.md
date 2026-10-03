@@ -14,7 +14,7 @@
 | **0:00 - 0:35** | **Epidemiological Context** | The Blindspot: Environmental surveillance never reaches clinicians | Open **🛰️ Epidemiological Surveillance**. Point to river reach & telemetry. |
 | **0:35 - 1:15** | **The Semantic Chasm** | Operational Semantic Bridge: Turning noisy data into public-health & clinical context | Point to the **OAH Semantic Decision Layer (SLS)** visual pipeline. |
 | **1:15 - 2:05** | **The SLS Decision Engine** | Live Bridge Demo: Evidence corroboration $\rightarrow$ CDS Hooks advisory | Show evidence score 0.86 $\rightarrow$ Trigger CDS Hooks exposure advisory in EHR. |
-| **2:05 - 2:40** | **Standards & Rigor** | Track 7 Conformance: 100% FHIR R4 Profiles & GDPR Design | Open **✓ Conformance Checks (44/44)** and **🔬 FHIR R4 Knowledge Graph**. |
+| **2:05 - 2:40** | **Standards & Rigor** | Track 7 Conformance: FHIR R4 Profiles & Privacy Architecture | Open **✓ Prototype Conformance Assertions (44/44)** and **🔬 FHIR R4 Knowledge Graph**. |
 | **2:40 - 3:00** | **Conclusion** | Horizon Europe Scalability & One Health Vision | Open **📄 Official Public Health Dossier** and highlight multi-city applicability. |
 
 ---
@@ -72,7 +72,7 @@
 > *1. **Complete HL7® FHIR® R4 Specification Suite**: 7 canonical CodeSystems, 6 ValueSets, 5 StructureDefinitions, and a full CapabilityStatement.*
 > *2. **Zero Semantic Slot Misuse**: We strictly preserved `Observation.method` for ascertainment technique, placed epistemic certainty into our validated `oah-evidence-status` extension, and mapped clinical disorders directly into `RiskAssessment.prediction.outcome` using pinned `SNOMED CT International Edition — March 2026 (20260301)` concepts (`40275004`, `416113008`, `69776003`), distinguishing preferred terms from display labels.*
 > *3. **Definitional Cohorts & Privacy Architecture**: Population risk is modeled on a definitional `Group (actual = false)` where individual membership is not required. Zero personal health information leaves the hospital firewall.*
-> *4. **100% Automated Test Harness**: 44/44 prototype assertions pass with 3/3 active SNOMED concepts verified, and all 25 unit and integration tests pass in 1.03 seconds."*
+> *4. **Automated Test Harness**: 44/44 prototype assertions pass with 3/3 active SNOMED concepts verified, and all 25 unit and integration tests pass in ~1.03 seconds."*
 
 ---
 
@@ -96,7 +96,7 @@
 
 ### Q2: "Why did you create an extension for epistemic status instead of using `Observation.method`?"
 **Your Winning Answer:**
-> *"That was a deliberate architectural decision based on the official HL7 FHIR R4 specification §8.17. `Observation.method` is strictly defined as the physical or algorithmic ascertainment mechanism—such as an in-situ sensor probe, a citizen visual observation, or a wet-lab chemical assay. Epistemic status (whether a finding is `observed`, `inferred`, or `confirmed`) represents truth certainty, not measurement technique. Conflating them breaks standard FHIR semantic querying. That is why our canonical extension `oah-evidence-status` uses a bound `valueCodeableConcept` with our canonical CodeSystem, keeping FHIR semantics 100% pure."*
+> *"That was a deliberate architectural decision based on the official HL7 FHIR R4 specification §8.17. `Observation.method` is strictly defined as the physical or algorithmic ascertainment mechanism—such as an in-situ sensor probe, a citizen visual observation, or a reference-lab chemical assay. Epistemic status (whether a finding is `observed`, `inferred`, or `confirmed`) represents truth certainty, not measurement technique. Conflating them breaks standard FHIR semantic querying. That is why our canonical extension `oah-evidence-status` uses a bound `valueCodeableConcept` with our canonical CodeSystem, keeping FHIR semantics pure and interoperable."*
 
 ---
 
@@ -118,6 +118,6 @@
 
 ---
 
-### Q6: "Are your 44 conformance checks certified by an official agency?"
+### Q6: "Are your 44 conformance checks issued by an official certification body?"
 **Your Winning Answer:**
-> *"No, and we are completely transparent about that. They are automated prototype conformance assertions implemented in our own 6-tier Python validation harness. They programmatically verify structural JSON schema constraints, OAH profile invariants, canonical CodeSystem membership, external SNOMED CT URIs, reference graph integrity, and scoring mathematical formulas. All 44 checks pass with 100% success rate on our generated bundles, and all 3 clinical outcome concepts are verified active against the official SNOMED CT International Edition."*
+> *"No, and we are completely transparent about that. They are automated prototype conformance assertions implemented in our own 6-tier Python validation harness. They programmatically verify structural JSON schema constraints, OAH profile invariants, canonical CodeSystem membership, external SNOMED CT URIs, reference graph integrity, and scoring mathematical formulas. All 44 prototype assertions pass on our generated bundles, and all 3 clinical outcome concepts are verified active against the official SNOMED CT International Edition."*

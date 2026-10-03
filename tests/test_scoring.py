@@ -37,7 +37,7 @@ def test_coimbra_score_calibration():
 
 
 def test_laboratory_confirmation_override():
-    """Verify that a positive wet-lab assay overrides inference to confirmed."""
+    """Verify that a positive reference-lab assay overrides inference to confirmed."""
     sub_scores = EvidenceSubScores(
         sensor_corroboration=0.85,
         citizen_agreement=0.70,
@@ -53,7 +53,7 @@ def test_laboratory_confirmation_override():
             unit="ug/L",
             regulatory_threshold=1.0,
             confirmed_positive=True,
-            laboratory_name="Certified Lab"
+            laboratory_name="Reference Lab"
         )
     ]
     result = compute_composite_evidence(sub_scores=sub_scores, lab_assays=lab_assays)

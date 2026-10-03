@@ -30,8 +30,8 @@
     },
     {
       "code": "laboratory-chemical-assay",
-      "display": "Ground-Truth Wet-Laboratory Chemical Assay",
-      "definition": "Certified analytical chemistry, mass spectrometry, or microbial culturing performed on physical water grab samples."
+      "display": "Reference Laboratory Chemical Assay",
+      "definition": "Reference analytical chemistry, mass spectrometry, or microbial culturing performed on physical water grab samples."
     }
   ]
 }

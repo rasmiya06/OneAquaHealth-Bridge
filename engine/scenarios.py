@@ -213,7 +213,7 @@ def get_toulouse_scenario() -> ScenarioDefinition:
 def get_storm_surge_scenario() -> ScenarioDefinition:
     """
     Scenario 3: Synthetic Storm Runoff (Post-Storm Enteropathogen Alert)
-    Demonstrates: Ground-truth wet-lab assay override yielding Epistemic Status: confirmed.
+    Demonstrates: Simulated reference-laboratory assay override yielding Epistemic Status: confirmed.
     """
     zone = SpatialExposureZone(
         site_id="oah-site-mondego-downstream",

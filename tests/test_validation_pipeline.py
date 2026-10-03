@@ -12,7 +12,7 @@ validator = OAHValidator(CONFORMANCE_DIR)
 
 
 def test_validation_all_scenarios_pass():
-    """Verify that all 3 demonstration scenarios pass all 6 tiers 100%."""
+    """Verify that all 3 demonstration scenarios pass all 6 tiers."""
     for s_id in SCENARIOS:
         scenario, evidence = load_scenario_and_compute(s_id)
         bundle = compose_scenario_bundle(scenario, evidence)

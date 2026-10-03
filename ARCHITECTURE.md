@@ -63,7 +63,7 @@ During architectural review against the official HL7 FHIR R4 standard, the follo
 - Exposes standard FHIR R4 endpoints (`/api/fhir/Observation`, `/api/fhir/Location`, `/api/fhir/Group`, `/api/fhir/RiskAssessment`, `/api/fhir/Bundle`) alongside documented custom search parameters (`?oah-hazard=...`, `?oah-location=...`).
 
 ### 1.10 Multi-Tier Conformance Validation
-- Automated 6-tier compliance test harness running 44 distinct programmatic assertions against JSON schema, profile constraints, code membership, external SNOMED CT ontologies, and reference graph integrity.
+- Automated 6-tier prototype validation harness running 44 distinct programmatic assertions against structural FHIR R4 element constraints, profile rules, canonical CodeSystems, external SNOMED CT ontologies, and reference graph integrity.
 
 ---
 
@@ -89,10 +89,10 @@ Where:
            │
     0.70 ≤ S ≤ 1.00  ──►  epistemic-status = "inferred" (High Clinical Warning)
            │
-  [ Wet-Lab HPLC Assay ]
+  [ Reference-Lab Assay ]
            │
            ▼
-     Positive Lab Assay  ─►  epistemic-status = "confirmed" (Definitive Public Health Order)
+     Positive Lab Assay  ─►  epistemic-status = "confirmed" (Confirmed Assessment)
 ```
 
 ---
