@@ -65,6 +65,10 @@ During architectural review against the official HL7 FHIR R4 standard, the follo
 ### 1.10 Multi-Tier Conformance Validation
 - Automated 6-tier prototype validation harness running 44 distinct programmatic assertions against structural FHIR R4 element constraints, profile rules, canonical CodeSystems, external SNOMED CT ontologies, and reference graph integrity.
 
+### 1.11 Positioning Relative to Upstream HL7 Europe OneAquaHealth Implementation Guide (`hl7-eu/oah`)
+- Upstream project assets define foundational HL7 Europe OneAquaHealth FHIR Implementation Guide profiles (`https://github.com/hl7-eu/oah`).
+- OAH-Bridge does not claim to reinvent foundational FHIR IG profiles; rather, its specific contribution is an **operational Semantic Decision Layer (SLS)** that takes raw, heterogeneous environmental surveillance (sensors, citizen science, predictive models, simulated assays), evaluates mathematical corroboration and epistemic certainty, bounds spatial exposure onto definitional population cohorts (`Group (actual=false)`), and exposes that context through standard FHIR R4 resources and non-diagnostic CDS Hooks 1.0 (`patient-view`) advisories.
+
 ---
 
 ## 2. Mathematical Corroboration Model

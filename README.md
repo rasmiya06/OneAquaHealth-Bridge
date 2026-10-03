@@ -16,16 +16,16 @@
 
 ## ⚡ Executive Summary
 
-Urban aquatic ecosystems are increasingly monitored by high-tech sensors, citizen scientists, and AI models. Yet, **when an environmental pathogen strikes, hospital emergency rooms are completely blind to it.**
+Urban aquatic ecosystems are increasingly monitored by in-situ sensors, citizen scientists, and ecological models. However, environmental surveillance streams and clinical encounter workflows typically operate in separate silos without real-time semantic linkage.
 
-A child swims in an active river bloom, presents to the ER with acute dermatitis, and the clinician evaluates ordinary atopic dermatitis or allergies without knowing about local toxic water conditions.
+In our motivating demonstration scenario, an individual who swims in an active river bloom presents to an emergency encounter with acute dermatitis. Without environmental exposure context, clinicians evaluate symptoms without visibility into localized toxic water conditions.
 
-**OAH-Bridge** is a semantic interoperability layer that transforms multi-source environmental evidence into provenance-aware, spatially contextualized FHIR R4 health signals. Its Semantic Decision Layer explicitly represents evidence status, corroboration, exposure pathways and potentially exposed populations before connecting them to standardized clinical concepts and non-diagnostic public-health workflows:
-1. **Multi-Source Evidence**: Ingests heterogeneous environmental inputs (in-situ sondes, citizen science reports, predictive models, simulated reference-laboratory assays).
+**OAH-Bridge** is an operational semantic decision layer that transforms multi-source environmental evidence into provenance-aware, spatially contextualized FHIR R4 health signals. Rather than claiming to reinvent FHIR profiles from scratch, OAH-Bridge operationalizes the bridge between heterogeneous surveillance streams and standardized health informatics (complementing the upstream [OneAquaHealth HL7 FHIR Implementation Guide](https://github.com/hl7-eu/oah)):
+1. **Multi-Source Evidence**: Ingests heterogeneous environmental inputs (in-situ sondes, citizen science reports, predictive models, simulated/synthetic wet-lab assay inputs).
 2. **Deterministic Corroboration**: Computes a transparent composite score ($S = 0.40 C_s + 0.30 C_c + 0.30 C_t$) and assigns a formal **epistemic status** (`observed`, `inferred`, `confirmed`).
 3. **Spatial Exposure Geometry**: Projects GIS buffer boundaries into a definitional cohort via **FHIR `Group (actual = false)`**; individual membership is not required for the environmental exposure definition.
 4. **Health Risk Context**: Evaluates population exposure risk via **FHIR `RiskAssessment`** with verified active SNOMED CT concepts and HL7 `risk-probability`.
-5. **Standards-Based Workflows**: Emits validated **HL7® FHIR® R4 Bundles** with Provenance, dispatches municipal public health notices (`CommunicationRequest`), and surfaces informational **CDS Hooks 1.0** context cards (`patient-view`) during EHR triage (no diagnosis or treatment recommendation).
+5. **Standards-Based Workflows**: Emits **FHIR R4 Bundles passing prototype conformance checks** with Provenance, dispatches municipal public health notices (`CommunicationRequest`), and surfaces informational **CDS Hooks 1.0** context cards (`patient-view`) during EHR triage (no diagnosis or treatment recommendation).
 
 ---
 
@@ -37,7 +37,7 @@ flowchart TD
         Sensors["In-situ Multiparameter Sonde<br/>(Chlorophyll-a, pH, Temp, DO)"]
         Citizen["Citizen Science Mobile App<br/>(Geotagged Sighting + Photographic Scum)"]
         Models["Predictive Ecological Models<br/>(DipteraCAST / Satellite Bloom Inference)"]
-        Labs["Simulated Reference-Lab Assays<br/>(Synthetic Scenario Grab Samples)"]
+        Labs["Simulated/Synthetic Wet-Lab Assay Inputs<br/>(Synthetic Scenario Grab Samples)"]
     end
 
     subgraph DecisionEngine [2. OAH Semantic Decision Layer - SLS]
@@ -51,7 +51,7 @@ flowchart TD
         CS["7 Canonical CodeSystems"]
         VS["6 ValueSets"]
         SD["5 StructureDefinitions"]
-        Bundle["Validated FHIR R4 Bundle<br/>(Location, Observation, Group, RiskAssessment, Provenance)"]
+        Bundle["FHIR R4 Bundle passing prototype conformance checks<br/>(Location, Observation, Group, RiskAssessment, Provenance)"]
     end
 
     subgraph ActionWorkflows [4. Public Health & Clinical Context]
@@ -75,7 +75,7 @@ flowchart TD
 
 | Standard / Component | Implementation in OAH-Bridge | Conformance Rationale & File Reference |
 | :--- | :--- | :--- |
-| **HL7® FHIR® R4** | `4.0.1` Resource Implementation | FHIR R4 resource implementation with 44 automated prototype conformance assertions across 8 distinct resources in [`engine/composer.py`](engine/composer.py). |
+| **HL7® FHIR® R4** | Automated prototype FHIR R4 conformance assertions | Prototype implementation with 44 automated structural assertions across 8 distinct resources in [`engine/composer.py`](engine/composer.py). |
 | **Observation.method** | Strictly Ascertainment Technique | Bound to [`conformance/cs-observation-technique.json`](conformance/cs-observation-technique.json) (`in-situ-sensor-probe`, `citizen-visual-observation`). Epistemic status is NOT conflated. |
 | **Epistemic Extension** | `oah-evidence-status` | Standalone extension with `valueCodeableConcept` bound to [`conformance/cs-evidence-status.json`](conformance/cs-evidence-status.json) (`observed`, `inferred`, `confirmed`). |
 | **Evidence Metric** | Standalone `Observation` | First-class metric observation linked via `Observation.focus` containing subcomponent telemetry in `Observation.component`. |
@@ -118,6 +118,18 @@ pytest
 - **Privacy-Preserving Cohort Representation**: No patient identifiers, clinical records, or personal locations are ever ingested or transmitted by environmental monitoring systems.
 - **Private Network Execution**: Clinical encounter location evaluation occurs entirely **inside the hospital's private EHR network** when a patient encounter triggers the CDS Hook (`patient-view`). Zero personal health data leaves the hospital firewall.
 - **Data Minimization by Design**: Aligns with privacy-by-design principles through data minimization, avoiding any tracking of individuals.
+
+---
+
+## 🌐 Relationship to Upstream OneAquaHealth FHIR Implementation Guide
+
+The official [OneAquaHealth project](https://oneaquahealth.eu) maintains foundational work on an [HL7 Europe OneAquaHealth FHIR Implementation Guide (`hl7-eu/oah`)](https://github.com/hl7-eu/oah). 
+
+**OAH-Bridge does not claim to reinvent foundational FHIR IG profiles.** Instead, OAH-Bridge's core scientific contribution is an **operational Semantic Decision Layer (SLS)** that bridges the gap between raw surveillance streams and standard health records:
+- Ingests multi-source, noisy environmental observations (sensors, citizen science, predictive models, simulated laboratory inputs).
+- Evaluates epistemic certainty and mathematical corroboration transparently ($S = 0.40 C_s + 0.30 C_c + 0.30 C_t$).
+- Establishes spatial exposure geometry and projects it onto definitional population cohorts (`Group (actual = false)`).
+- Connects environmental hazard context into clinical EHR triage via **CDS Hooks 1.0 (`patient-view`)** without diagnostic or treatment overreach.
 
 ---
 
