@@ -1,0 +1,4 @@
+# OneAquaHealth Semantic Interoperability Bridge (OAH-Bridge)
+# Core server runs on Python 3.10+ standard library.
+# Testing framework:
+pytest>=7.4.0
