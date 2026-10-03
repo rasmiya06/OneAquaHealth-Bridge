@@ -549,7 +549,7 @@
         <span>🔬 FHIR R4 Knowledge Graph</span>
       </button>
       <button class="nav-tab-btn" onclick="switchSection(this, 'section-audit')">
-        <span>✓ Conformance Checks (44/44)</span>
+        <span>✓ Prototype Conformance Assertions (44/44)</span>
       </button>
     </nav>
 
@@ -584,7 +584,7 @@
     </div>
     <div class="status-item">
       <div class="status-led"></div>
-      <span>Prototype Conformance Checks: <strong>44/44 PASS (SNOMED 20260301)</strong></span>
+      <span>Prototype Conformance Assertions: <strong>44/44 PASS (SNOMED 20260301)</strong></span>
     </div>
     <div class="status-item">
       <div class="status-led"></div>
@@ -949,11 +949,11 @@
     <section id="section-audit" class="tab-content">
       <div class="panel-card">
         <div class="panel-header">
-          <h2>Automated Prototype Conformance Checks: 44/44 PASS</h2>
+          <h2>Automated Prototype Conformance Assertions: 44/44 PASS</h2>
           <span class="badge-status badge-confirmed">44/44 PASS</span>
         </div>
         <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 16px;">
-          Self-hosted 6-tier programmatic validation harness verifying structural JSON schema, custom OAH profiles, canonical CodeSystem membership, external SNOMED CT terminology bindings, reference graph integrity, and deterministic scoring invariants.
+          Self-hosted 6-tier programmatic validation harness verifying prototype structural assertions, custom OAH profiles, canonical CodeSystem membership, external SNOMED CT terminology bindings, reference graph integrity, and deterministic scoring invariants.
         </p>
         <div id="auditListContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
 
@@ -1175,7 +1175,7 @@
         if (sc.id === 'toulouse-diptera') {
           step1Content.innerHTML = '• DipteraCAST AI Ecological Model<br>• Geotagged Park Swarm Reports<br>• Riparian Stagnation Telemetry<br>• Riparian Canopy Cover & Degree Days';
         } else if (sc.id === 'mondego-storm-surge') {
-          step1Content.innerHTML = '• Certified Wet-Lab HPLC/Assay<br>• Stormwater Turbidity Sondes<br>• Runoff Flotsam Citizen Reports<br>• EU Bathing Water Directive Metrics';
+          step1Content.innerHTML = '• Simulated Reference-Lab Assay<br>• Stormwater Turbidity Sondes<br>• Runoff Flotsam Citizen Reports<br>• EU Bathing Water Directive Metrics';
         } else {
           step1Content.innerHTML = '• Multiparameter Sondes<br>• Geotagged Citizen Reports<br>• Model Inferences (DipteraCAST)<br>• Wet-Lab Assays (HPLC-MS)';
         }
@@ -1280,7 +1280,7 @@
           C_sensor = ${sub.sensor_corroboration.toFixed(2)} (${sc.id === 'toulouse-diptera' ? 'DipteraCAST stagnation telemetry' : sc.id === 'mondego-storm-surge' ? 'Estuary turbidity surge telemetry' : 'Sonde telemetry corroboration'})<br>
           C_citizen = ${sub.citizen_agreement.toFixed(2)} (${sc.id === 'toulouse-diptera' ? 'Park visitor biting reports' : sc.id === 'mondego-storm-surge' ? 'Runoff plume observer reports' : 'Geotagged observer consensus'})<br>
           C_temporal = ${sub.temporal_consistency.toFixed(2)} (${sc.id === 'toulouse-diptera' ? 'Multi-day ecological persistence' : sc.id === 'mondego-storm-surge' ? 'Post-storm hydrodynamic persistence' : '6-hour sliding persistence'})
-          ${sc.epistemic_status === 'confirmed' && sc.lab_assays && sc.lab_assays.length > 0 ? '<br><span style="color:#34d399; font-weight:700;">★ Ground-truth wet-lab assay confirmed positive (' + sc.lab_assays[0].analyte + ' ' + sc.lab_assays[0].concentration + ' ' + sc.lab_assays[0].unit + ') overrides status to Confirmed.</span>' : ''}
+          ${sc.epistemic_status === 'confirmed' && sc.lab_assays && sc.lab_assays.length > 0 ? '<br><span style="color:#34d399; font-weight:700;">★ Simulated reference-laboratory assay confirmed positive (' + sc.lab_assays[0].analyte + ' ' + sc.lab_assays[0].concentration + ' ' + sc.lab_assays[0].unit + ') overrides status to Confirmed.</span>' : ''}
         `;
       }
 
@@ -1371,7 +1371,7 @@
       const dossierScore = document.getElementById('dossierScore');
       if (dossierScore) dossierScore.innerHTML = `<strong>MULTI-SOURCE EVIDENCE CORROBORATION:</strong> Score = ${sc.evidence_score.toFixed(2)} (Sensor Telemetry ${sub.sensor_corroboration.toFixed(2)}, Citizen Science ${sub.citizen_agreement.toFixed(2)}, Temporal Persistence ${sub.temporal_consistency.toFixed(2)})`;
       const dossierStatus = document.getElementById('dossierStatus');
-      if (dossierStatus) dossierStatus.innerHTML = `<strong>EPISTEMIC STATUS:</strong> ${sc.epistemic_display} (${sc.epistemic_status === 'confirmed' ? 'Ground-Truth Wet-Lab Confirmed' : 'Strong Multi-Source Corroboration'})`;
+      if (dossierStatus) dossierStatus.innerHTML = `<strong>EPISTEMIC STATUS:</strong> ${sc.epistemic_display} (${sc.epistemic_status === 'confirmed' ? 'Simulated Reference-Lab Confirmed' : 'Strong Multi-Source Corroboration'})`;
       const dossierCohort = document.getElementById('dossierCohort');
       if (dossierCohort) dossierCohort.innerHTML = `<strong>EXPOSED COHORT DEFINITION:</strong> ~${(sc.estimated_exposed_population || 1850).toLocaleString()} individuals actively engaging in ${sc.recreational_use_category || 'recreational water contact'} (FHIR Group/oah-cohort-${sc.id}, actual=false).`;
       const dossierOutcome = document.getElementById('dossierOutcome');

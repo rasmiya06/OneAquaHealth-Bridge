@@ -21,7 +21,7 @@
       "scenarios": [
         "coimbra-cyanobacteria"
       ],
-      "clinical_rationale": "Recreational freshwater immersion in presence of Microcystin-LR and cyanobacterial surface scum causes acute toxic/irritant contact dermatitis."
+      "clinical_rationale": "Recreational freshwater immersion in the presence of Microcystin-LR and cyanobacterial surface scum is associated with an environmental exposure context relevant to contact dermatitis."
     },
     {
       "code": "416113008",
@@ -55,7 +55,7 @@
       "scenarios": [
         "mondego-storm-surge"
       ],
-      "clinical_rationale": "Recreational water ingestion/immersion following combined sewer storm runoff contaminated with high E. coli (>2400 CFU/100mL) causes acute waterborne gastroenteritis."
+      "clinical_rationale": "Recreational water ingestion or immersion following storm runoff contaminated with high E. coli (>2400 CFU/100mL) represents an environmental exposure context relevant to acute gastroenteritis."
     }
   ],
   "canonical_codesystems_verified": [

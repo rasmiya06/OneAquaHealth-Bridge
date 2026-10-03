@@ -4,7 +4,7 @@
 [![HL7 FHIR R4](https://img.shields.io/badge/HL7%C2%AE%20FHIR%C2%AE-R4%20(v4.0.1)-firebrick.svg)](conformance/)
 [![CDS Hooks 1.0](https://img.shields.io/badge/CDS%20Hooks-1.0%20Reference-darkgreen.svg)](api/server.py)
 [![Test Suite](https://img.shields.io/badge/Automated%20Tests-25%2F25%20PASS%20(100%25)-success.svg)](tests/)
-[![Prototype Conformance](https://img.shields.io/badge/Prototype%20Audit-44%2F44%20Checks%20Passed-purple.svg)](validator/)
+[![Prototype Conformance](https://img.shields.io/badge/Prototype%20Assertions-44%2F44%20PASS-purple.svg)](validator/)
 [![Privacy-Preserving Cohort](https://img.shields.io/badge/Cohort-Definitional%20Group%20(actual%3Dfalse)-teal.svg)](#-definitional-cohorts--privacy-architecture)
 
 > **Official Demonstration for OneAquaHealth Hackathon — Track 7: Standards & Interoperability**  
@@ -21,7 +21,7 @@ Urban aquatic ecosystems are increasingly monitored by high-tech sensors, citize
 A child swims in an active river bloom, presents to the ER with acute dermatitis, and the clinician evaluates ordinary atopic dermatitis or allergies without knowing about local toxic water conditions.
 
 **OAH-Bridge** is a semantic interoperability layer that transforms multi-source environmental evidence into provenance-aware, spatially contextualized FHIR R4 health signals. Its Semantic Decision Layer explicitly represents evidence status, corroboration, exposure pathways and potentially exposed populations before connecting them to standardized clinical concepts and non-diagnostic public-health workflows:
-1. **Multi-Source Evidence**: Ingests heterogeneous environmental inputs (in-situ sondes, citizen science reports, predictive models, certified wet-lab assays).
+1. **Multi-Source Evidence**: Ingests heterogeneous environmental inputs (in-situ sondes, citizen science reports, predictive models, simulated reference-laboratory assays).
 2. **Deterministic Corroboration**: Computes a transparent composite score ($S = 0.40 C_s + 0.30 C_c + 0.30 C_t$) and assigns a formal **epistemic status** (`observed`, `inferred`, `confirmed`).
 3. **Spatial Exposure Geometry**: Projects GIS buffer boundaries into a definitional cohort via **FHIR `Group (actual = false)`**; individual membership is not required for the environmental exposure definition.
 4. **Health Risk Context**: Evaluates population exposure risk via **FHIR `RiskAssessment`** with verified active SNOMED CT concepts and HL7 `risk-probability`.
@@ -37,7 +37,7 @@ flowchart TD
         Sensors["In-situ Multiparameter Sonde<br/>(Chlorophyll-a, pH, Temp, DO)"]
         Citizen["Citizen Science Mobile App<br/>(Geotagged Sighting + Photographic Scum)"]
         Models["Predictive Ecological Models<br/>(DipteraCAST / Satellite Bloom Inference)"]
-        Labs["Certified Wet-Lab Assays<br/>(HPLC-MS Cyanotoxin / Grab Samples)"]
+        Labs["Simulated Reference-Lab Assays<br/>(Synthetic Scenario Grab Samples)"]
     end
 
     subgraph DecisionEngine [2. OAH Semantic Decision Layer - SLS]
@@ -75,7 +75,7 @@ flowchart TD
 
 | Standard / Component | Implementation in OAH-Bridge | Conformance Rationale & File Reference |
 | :--- | :--- | :--- |
-| **HL7® FHIR® R4** | `4.0.1` Resource Serialization | Complete JSON schema compliance across 8 distinct resources in [`engine/composer.py`](engine/composer.py). |
+| **HL7® FHIR® R4** | `4.0.1` Resource Implementation | FHIR R4 resource implementation with 44 automated prototype conformance assertions across 8 distinct resources in [`engine/composer.py`](engine/composer.py). |
 | **Observation.method** | Strictly Ascertainment Technique | Bound to [`conformance/cs-observation-technique.json`](conformance/cs-observation-technique.json) (`in-situ-sensor-probe`, `citizen-visual-observation`). Epistemic status is NOT conflated. |
 | **Epistemic Extension** | `oah-evidence-status` | Standalone extension with `valueCodeableConcept` bound to [`conformance/cs-evidence-status.json`](conformance/cs-evidence-status.json) (`observed`, `inferred`, `confirmed`). |
 | **Evidence Metric** | Standalone `Observation` | First-class metric observation linked via `Observation.focus` containing subcomponent telemetry in `Observation.component`. |

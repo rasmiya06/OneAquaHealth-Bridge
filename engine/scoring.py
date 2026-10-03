@@ -32,16 +32,23 @@ THRESHOLD_MODERATE_INFERRED = 0.40
 
 def calculate_sensor_corroboration(readings: List[SensorReading]) -> float:
     """
-    Computes normalized corroboration among sensor readings.
-    Evaluates the fraction of parameters that exceed anomaly thresholds.
+    Computes normalized corroboration among in-situ sensor telemetry readings.
+    Evaluates both the proportion of parameters exceeding anomaly thresholds
+    and the relative exceedance magnitude above baseline.
     """
     if not readings:
         return 0.0
-    exceeded_count = sum(1 for r in readings if r.threshold_exceeded)
-    # Ratio of anomalous readings scaled to 0.0 - 1.0
-    ratio = exceeded_count / len(readings)
-    # Cap between 0.00 and 1.00
-    return round(min(1.0, max(0.0, ratio * 0.95 + 0.05 if exceeded_count > 0 else 0.0)), 2)
+    exceeded = [r for r in readings if r.threshold_exceeded]
+    if not exceeded:
+        return 0.0
+    ratio = len(exceeded) / len(readings)
+    excesses = [
+        min(2.0, (r.value - r.nominal_baseline) / r.nominal_baseline)
+        for r in exceeded if r.nominal_baseline > 0
+    ]
+    avg_excess = sum(excesses) / len(readings) if excesses else 0.0
+    score = (ratio * 0.70) + (min(1.0, avg_excess / 1.5) * 0.30)
+    return round(min(1.0, max(0.0, score)), 2)
 
 
 def calculate_citizen_agreement(reports: List[CitizenReport]) -> float:
@@ -52,26 +59,32 @@ def calculate_citizen_agreement(reports: List[CitizenReport]) -> float:
     if not reports:
         return 0.0
     avg_severity = sum(r.severity_rating for r in reports) / len(reports)
-    # Scale severity 1-5 to 0.2 - 1.0
+    # Severity normalized to 0.2 - 1.0
     severity_norm = avg_severity / 5.0
-    # Density factor (saturates at 5 reports)
-    density_factor = min(1.0, len(reports) / 4.0)
-    score = (severity_norm * 0.7) + (density_factor * 0.3)
+    # Density factor (reaches saturation at 3 reports)
+    density_factor = min(1.0, len(reports) / 3.0)
+    score = (severity_norm * 0.55) + (density_factor * 0.35)
     return round(min(1.0, max(0.0, score)), 2)
 
 
 def calculate_temporal_consistency(readings: List[SensorReading], reports: List[CitizenReport]) -> float:
     """
     Evaluates trend persistence over the observation window.
-    High score indicates multiple timestamps showing persistent anomaly.
+    Evaluates distinct observation hourly buckets across telemetry and field reports.
     """
-    total_events = len(readings) + len(reports)
-    if total_events == 0:
+    timestamps = [r.timestamp for r in readings] + [c.timestamp for c in reports]
+    if not timestamps:
         return 0.0
-    # Distinct timestamps represent temporal persistence
-    all_timestamps = {r.timestamp[:13] for r in readings} | {c.timestamp[:13] for c in reports}
-    time_spread = min(1.0, len(all_timestamps) / 3.0)
-    consistency = 0.85 if time_spread >= 0.6 else 0.50
+    distinct_hours = {ts[:13] for ts in timestamps if len(ts) >= 13}
+    hour_count = len(distinct_hours)
+    if hour_count >= 4:
+        consistency = 0.92
+    elif hour_count >= 3:
+        consistency = 0.85
+    elif hour_count >= 2:
+        consistency = 0.75
+    else:
+        consistency = 0.50
     return round(consistency, 2)
 
 

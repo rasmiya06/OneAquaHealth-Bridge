@@ -16,7 +16,7 @@ During architectural review against the official HL7 FHIR R4 standard, the follo
     - `in-situ-sensor-probe` (multiparameter sonde telemetry)
     - `citizen-visual-observation` (geotagged field reports)
     - `predictive-model-inference` (DipteraCAST / algorithmic forecasting)
-    - `laboratory-chemical-assay` (certified HPLC-MS wet-lab testing)
+    - `laboratory-chemical-assay` (simulated reference-laboratory assay)
   - Epistemic validity is modeled via a formal extension `http://oneaquahealth.eu/fhir/StructureDefinition/oah-evidence-status` using `valueCodeableConcept` bound to `http://oneaquahealth.eu/fhir/cs/evidence-status` (`observed`, `inferred`, `confirmed`).
 
 ### 1.2 First-Class Evidence Support Metric
@@ -92,7 +92,7 @@ Where:
   [ Wet-Lab HPLC Assay ]
            │
            ▼
-     Certified Assay  ─►  epistemic-status = "confirmed" (Definitive Public Health Order)
+     Positive Lab Assay  ─►  epistemic-status = "confirmed" (Definitive Public Health Order)
 ```
 
 ---
@@ -117,23 +117,22 @@ Where:
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Clinician as Emergency Pediatrician
+    actor Clinician as Emergency Physician
     participant EHR as Hospital EHR (Epic / Cerner)
     participant CDS as OAH CDS Hooks Service (/cds-services)
     participant OAH as OAH Semantic Bridge (FHIR R4)
     actor Municipality as Municipal Water Inspectorate
 
-    Note over Clinician,EHR: Maria Silva presents with acute erythematous rash
+    Note over Clinician,EHR: Maria Silva presents with acute pruritic rash
     Clinician->>EHR: Opens patient encounter (ENC-9281)
     EHR->>CDS: POST /cds-services/oah-exposure-advisory (coordinates: [-8.4285, 40.2035])
     CDS->>OAH: Raycasting intersection against active Location reaches
-    OAH-->>CDS: Intersects Reach #4 (Microcystin Bloom, Score 0.86)
-    CDS-->>EHR: Returns CDS Card (indicator: warning, SNOMED: 40275004)
+    OAH-->>CDS: Intersects Reach #4 (Microcystin Toxic Surge, Score 0.86)
+    CDS-->>EHR: Returns Informational CDS Card (indicator: warning, SNOMED: 40275004)
     
-    EHR-->>Clinician: Displays "⚠️ Environmental Hazard Alert: Cyanotoxin Risk"
-    Clinician->>EHR: Attempts to prescribe Hydrocortisone Cream
-    EHR-->>Clinician: Displays CDS Intercept: "Topical steroid contraindicated in active cyanotoxin dermatitis"
-    Clinician->>EHR: Clicks "Switch to Cyanotoxin Debridement Protocol"
-    EHR->>OAH: Emits FHIR CommunicationRequest
-    OAH->>Municipality: Dispatches Inspection Ticket & Issues Beach Closure Order
+    EHR-->>Clinician: Displays "Environmental Exposure Context: Parque Verde Reach"
+    Note over Clinician,EHR: Non-diagnostic advisory: inquire about recreational water contact
+    Clinician->>EHR: Documents verified water exposure history in encounter notes
+    EHR->>OAH: Emits FHIR CommunicationRequest (alert notification)
+    OAH->>Municipality: Dispatches Environmental Health Inspection Ticket
 ```

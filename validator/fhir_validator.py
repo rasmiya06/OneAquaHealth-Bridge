@@ -12,7 +12,7 @@ from typing import Dict, Any, List, Tuple
 class FHIRValidationReport:
     def __init__(self):
         self.tiers: Dict[str, Dict[str, Any]] = {
-            "tier1_structural": {"name": "Tier 1: FHIR R4 Structural & Data-Type Schema", "passed": True, "checks": []},
+            "tier1_structural": {"name": "Tier 1: Prototype FHIR R4 Structural & Element Assertions", "passed": True, "checks": []},
             "tier2_profiles": {"name": "Tier 2: OAH StructureDefinition & Extension Constraints", "passed": True, "checks": []},
             "tier3_codesystems": {"name": "Tier 3: OAH Canonical CodeSystem Membership", "passed": True, "checks": []},
             "tier4_external_terminologies": {"name": "Tier 4: External Terminology & Concept Resolution (SNOMED CT, HL7)", "passed": True, "checks": []},

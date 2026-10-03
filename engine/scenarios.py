@@ -238,6 +238,29 @@ def get_storm_surge_scenario() -> ScenarioDefinition:
         }
     )
 
+    citizen_reports = [
+        CitizenReport(
+            report_id="cr-storm-501",
+            timestamp="2026-10-01T05:30:00Z",
+            site_id="oah-site-mondego-downstream",
+            observer_type="citizen-scientist",
+            sighting_type="surface-scum",
+            severity_rating=4,
+            description="Combined sewer overflow plume with turbid dark runoff visible entering estuary margin.",
+            coordinates=[-8.8450, 40.1500]
+        ),
+        CitizenReport(
+            report_id="cr-storm-502",
+            timestamp="2026-10-01T07:15:00Z",
+            site_id="oah-site-mondego-downstream",
+            observer_type="recreational-swimmer",
+            sighting_type="water-discoloration",
+            severity_rating=3,
+            description="Strong sewage and organic decomposition odor along beach margin near breakwater.",
+            coordinates=[-8.8420, 40.1510]
+        )
+    ]
+
     sensor_readings = [
         SensorReading("sr-storm-501", "2026-10-01T04:00:00Z", "oah-site-mondego-downstream", "turbidity", 85.0, "NTU", 12.0, True),
         SensorReading("sr-storm-502", "2026-10-01T04:00:00Z", "oah-site-mondego-downstream", "electrical-conductivity", 650.0, "uS/cm", 250.0, True)
@@ -253,7 +276,7 @@ def get_storm_surge_scenario() -> ScenarioDefinition:
             unit="CFU/100mL",
             regulatory_threshold=500.0,
             confirmed_positive=True,
-            laboratory_name="Regional Public Health Microbiology Reference Laboratory"
+            laboratory_name="Simulated Reference Laboratory (Synthetic Scenario)"
         )
     ]
 
@@ -271,10 +294,11 @@ def get_storm_surge_scenario() -> ScenarioDefinition:
         snomed_outcome_display="Acute gastroenteritis",
         snomed_preferred_term="Acute gastroenteritis",
         qualitative_risk="high",
-        risk_summary="Certified public health wet-laboratory assay confirmed E. coli concentration (2400 CFU/100mL) substantially exceeding EU Bathing Water recreational thresholds following combined storm runoff. Primary water recreation carries high acute waterborne gastroenteritis risk.",
+        risk_summary="Simulated reference-laboratory assay indicates E. coli concentration (2400 CFU/100mL) substantially exceeding EU Bathing Water recreational thresholds following combined storm runoff. Primary water recreation carries high acute waterborne gastroenteritis risk context.",
         ascertainment_technique="laboratory-chemical-assay",
-        ascertainment_display="Ground-Truth Wet-Laboratory Chemical & Microbial Assay",
+        ascertainment_display="Simulated Reference-Laboratory Microbial Assay Override",
         spatial_zone=zone,
+        citizen_reports=citizen_reports,
         sensor_readings=sensor_readings,
         lab_assays=lab_assays
     )
@@ -289,49 +313,19 @@ SCENARIOS = {
 
 def load_scenario_and_compute(scenario_id: str):
     """
-    Loads scenario, computes deterministic evidence score, and composes complete FHIR bundle.
+    Loads scenario, dynamically computes deterministic evidence score directly from raw inputs,
+    and returns scenario definition and computed evidence.
     """
     if scenario_id not in SCENARIOS:
         raise ValueError(f"Unknown scenario ID: {scenario_id}. Available: {list(SCENARIOS.keys())}")
 
     scenario = SCENARIOS[scenario_id]()
 
-    # Pre-calibrated sub-scores for exact match with audited informatics profile
-    if scenario_id == "coimbra-cyanobacteria":
-        sub_scores = EvidenceSubScores(
-            sensor_corroboration=0.90,
-            citizen_agreement=0.75,
-            temporal_consistency=0.92
-        )
-        evidence = compute_composite_evidence(
-            sub_scores=sub_scores,
-            readings=scenario.sensor_readings,
-            reports=scenario.citizen_reports,
-            lab_assays=scenario.lab_assays
-        )
-    elif scenario_id == "toulouse-diptera":
-        sub_scores = EvidenceSubScores(
-            sensor_corroboration=0.70,
-            citizen_agreement=0.80,
-            temporal_consistency=0.75
-        )
-        evidence = compute_composite_evidence(
-            sub_scores=sub_scores,
-            readings=scenario.sensor_readings,
-            reports=scenario.citizen_reports,
-            lab_assays=scenario.lab_assays
-        )
-    else:  # storm surge with laboratory confirmation
-        sub_scores = EvidenceSubScores(
-            sensor_corroboration=0.85,
-            citizen_agreement=0.70,
-            temporal_consistency=0.88
-        )
-        evidence = compute_composite_evidence(
-            sub_scores=sub_scores,
-            readings=scenario.sensor_readings,
-            reports=scenario.citizen_reports,
-            lab_assays=scenario.lab_assays
-        )
+    # Dynamically compute deterministic evidence score and sub-scores directly from scenario inputs
+    evidence = compute_composite_evidence(
+        readings=scenario.sensor_readings,
+        reports=scenario.citizen_reports,
+        lab_assays=scenario.lab_assays
+    )
 
     return scenario, evidence
