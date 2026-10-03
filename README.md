@@ -95,8 +95,8 @@ flowchart TD
 ### 2. Run the Server
 ```bash
 # Clone the repository
-git clone https://github.com/oneaquahealth/oah-bridge.git
-cd oah-bridge
+git clone https://github.com/rasmiya06/OneAquaHealth-Bridge.git
+cd OneAquaHealth-Bridge
 
 # Start the REST API & CDS Hooks Reference Server
 python3 api/server.py 8000
